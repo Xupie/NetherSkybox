@@ -23,11 +23,15 @@ public class ModConfigScreen extends Screen implements ConfigPreviewRenderer {
     private ButtonWidget darkenedBtn;
     private Color fogColor;
     private ButtonWidget useThickFogBtn;
+    private ButtonWidget brightenLightingBtn;
 
     private int skyTypeIndex = 0;
 
     private int red, green, blue;
     private SliderWidget redSlider, greenSlider, blueSlider;
+
+    private int cloudHeight;
+    private SliderWidget cloudHeightSlider;
 
     private int previewSize = 40;
     private int previewX;
@@ -45,6 +49,38 @@ public class ModConfigScreen extends Screen implements ConfigPreviewRenderer {
     protected void init() {
         int centerX = this.width / 2;
         int y = this.height / 4;
+
+        // Toggle alternate Sky Color
+        alternateSkyColorBtn = this.addDrawableChild(
+            ButtonWidget.builder(getToggleText("Alternate Sky Color", config.settings.alternateSkyColor), button -> {
+                config.settings.alternateSkyColor = !config.settings.alternateSkyColor;
+                button.setMessage(getToggleText("Alternate Sky Color", config.settings.alternateSkyColor));
+            }).size(200, 20).position(centerX - 100, y).build()
+        );
+        y += 24;
+
+        // Toggle Brighten Lighting
+        brightenLightingBtn = this.addDrawableChild(
+            ButtonWidget.builder(getToggleText("Brighten Lighting", config.settings.brightenLighting), button -> {
+                config.settings.brightenLighting = !config.settings.brightenLighting;
+                button.setMessage(getToggleText("Brighten Lighting", config.settings.brightenLighting));
+            }).size(200, 20).position(centerX - 100, y).build()
+        );
+        y += 24;
+
+        // Slider for cloud height
+        cloudHeightSlider = this.addDrawableChild(new SliderWidget(centerX - 100, y, 200, 20, Text.literal("Cloud Height: " + cloudHeight), cloudHeight) {
+            @Override
+            protected void updateMessage() {
+                this.setMessage(Text.literal("cloud Height: " + (int) (this.value * 256)));
+            }
+
+            @Override
+            protected void applyValue() {
+                cloudHeight = (int) (this.value * 256);
+            }
+        });
+        y += 24;
 
         // Toggle alternate Sky Color
         alternateSkyColorBtn = this.addDrawableChild(

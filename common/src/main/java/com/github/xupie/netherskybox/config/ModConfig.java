@@ -54,6 +54,8 @@ public class ModConfig {
     }
 
     public static class Settings {
+        public float cloudHeight = 192.0F;
+        public boolean brightenLighting = false;
         public boolean alternateSkyColor = false;
         public SkyTypeOptions skyTypeOptions = SkyTypeOptions.OVERWORLD;
         public boolean darkened = false;

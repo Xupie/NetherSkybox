@@ -15,8 +15,10 @@ public final class NetherSkybox {
 
     public static DimensionEffects createCustomEffect(ModConfig.Settings config) {
         return new DimensionEffects(
-            config.skyTypeOptions.mappedSkyType,
+            config.cloudHeight,
             config.alternateSkyColor,
+            config.skyTypeOptions.mappedSkyType,
+            config.brightenLighting,
             config.darkened
         ) {
             @Override
