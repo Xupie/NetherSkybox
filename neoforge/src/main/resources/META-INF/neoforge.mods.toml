@@ -1,0 +1,31 @@
+modLoader = "javafml"
+loaderVersion = "[9,)"
+#issueTrackerURL = ""
+license = "Insert License Here"
+
+[[mods]]
+modId = "nether_skybox"
+version = "${version}"
+displayName = "Nether Skybox"
+authors = "Xupie"
+description = '''
+Adds skybox to nether so you can use custom skies.
+'''
+logoFile = "icon.png"
+
+[[dependencies.nether_skybox]]
+modId = "neoforge"
+type = "required"
+versionRange = "[21.6.20-beta,)"
+ordering = "NONE"
+side = "CLIENT"
+
+[[dependencies.nether_skybox]]
+modId = "minecraft"
+type = "required"
+versionRange = "[1.21.6,)"
+ordering = "NONE"
+side = "CLIENT"
+
+[[mixins]]
+config = "nether_skybox.mixins.json"

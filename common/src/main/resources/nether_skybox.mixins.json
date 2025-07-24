@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "package": "com.github.xupie.netherskybox.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "minVersion": "0.8",
+  "client": [
+    "ClientWorldMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
