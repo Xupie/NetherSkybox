@@ -14,10 +14,10 @@ public enum SkyTypeOptions {
 
 
     public String getDisplayName() {
-        switch (this) {
-            case OVERWORLD: return "Overworld";
-            case END: return "The End";
-            default: return name();
-        }
+        return switch (this) {
+            case OVERWORLD -> "Overworld";
+            case END -> "The End";
+            default -> name();
+        };
     }
 }

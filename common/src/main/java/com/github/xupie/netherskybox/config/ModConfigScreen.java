@@ -11,37 +11,20 @@ import net.minecraft.util.Formatting;
 
 import java.awt.*;
 
-import static com.github.xupie.netherskybox.NetherSkybox.createCustomEffect;
-
 public class ModConfigScreen extends Screen implements ConfigPreviewRenderer {
     private final Screen parent;
     private final ModConfig config;
 
-    // GUI fields for config entries:
-    private ButtonWidget alternateSkyColorBtn;
-    private ButtonWidget skyTypeBtn;
-    private ButtonWidget darkenedBtn;
-    private Color fogColor;
-    private ButtonWidget useThickFogBtn;
-    private ButtonWidget brightenLightingBtn;
-
-    private int skyTypeIndex = 0;
+    private int skyTypeIndex;
 
     private int red, green, blue;
-    private SliderWidget redSlider, greenSlider, blueSlider;
-
+    private SliderWidget greenSlider;
     private int cloudHeight;
-    private SliderWidget cloudHeightSlider;
-
-    private int previewSize = 40;
-    private int previewX;
-    private int previewY;
 
     public ModConfigScreen(Screen parent, ModConfig config) {
         super(Text.literal("Nether Skybox Config"));
         this.parent = parent;
         this.config = config;
-        this.fogColor = new Color(config.settings.fogColor, true);
         this.skyTypeIndex = config.settings.skyTypeOptions.ordinal();
     }
 
@@ -51,7 +34,7 @@ public class ModConfigScreen extends Screen implements ConfigPreviewRenderer {
         int y = this.height / 4;
 
         // Toggle alternate Sky Color
-        alternateSkyColorBtn = this.addDrawableChild(
+        this.addDrawableChild(
             ButtonWidget.builder(getToggleText("Alternate Sky Color", config.settings.alternateSkyColor), button -> {
                 config.settings.alternateSkyColor = !config.settings.alternateSkyColor;
                 button.setMessage(getToggleText("Alternate Sky Color", config.settings.alternateSkyColor));
@@ -60,7 +43,7 @@ public class ModConfigScreen extends Screen implements ConfigPreviewRenderer {
         y += 24;
 
         // Toggle Brighten Lighting
-        brightenLightingBtn = this.addDrawableChild(
+        this.addDrawableChild(
             ButtonWidget.builder(getToggleText("Brighten Lighting", config.settings.brightenLighting), button -> {
                 config.settings.brightenLighting = !config.settings.brightenLighting;
                 button.setMessage(getToggleText("Brighten Lighting", config.settings.brightenLighting));
@@ -69,7 +52,7 @@ public class ModConfigScreen extends Screen implements ConfigPreviewRenderer {
         y += 24;
 
         // Slider for cloud height
-        cloudHeightSlider = this.addDrawableChild(new SliderWidget(centerX - 100, y, 200, 20, Text.literal("Cloud Height: " + cloudHeight), cloudHeight) {
+        this.addDrawableChild(new SliderWidget(centerX - 100, y, 200, 20, Text.literal("Cloud Height: " + cloudHeight), cloudHeight) {
             @Override
             protected void updateMessage() {
                 this.setMessage(Text.literal("cloud Height: " + (int) (this.value * 256)));
@@ -83,7 +66,7 @@ public class ModConfigScreen extends Screen implements ConfigPreviewRenderer {
         y += 24;
 
         // Toggle alternate Sky Color
-        alternateSkyColorBtn = this.addDrawableChild(
+        this.addDrawableChild(
             ButtonWidget.builder(getToggleText("Alternate Sky Color", config.settings.alternateSkyColor), button -> {
                 config.settings.alternateSkyColor = !config.settings.alternateSkyColor;
                 button.setMessage(getToggleText("Alternate Sky Color", config.settings.alternateSkyColor));
@@ -92,7 +75,7 @@ public class ModConfigScreen extends Screen implements ConfigPreviewRenderer {
         y += 24;
 
         // Cycle SkyTypeOptions button
-        skyTypeBtn = this.addDrawableChild(
+        this.addDrawableChild(
             ButtonWidget.builder(getSkyTypeText(SkyTypeOptions.values()[skyTypeIndex]), button -> {
                 skyTypeIndex = (skyTypeIndex + 1) % SkyTypeOptions.values().length;
                 config.settings.skyTypeOptions = SkyTypeOptions.values()[skyTypeIndex];
@@ -102,7 +85,7 @@ public class ModConfigScreen extends Screen implements ConfigPreviewRenderer {
         y += 24;
 
         // Toggle Darkened
-        darkenedBtn = this.addDrawableChild(
+        this.addDrawableChild(
             ButtonWidget.builder(getToggleText("Darkened", config.settings.darkened), button -> {
                 config.settings.darkened = !config.settings.darkened;
                 button.setMessage(getToggleText("Darkened", config.settings.darkened));
@@ -111,7 +94,7 @@ public class ModConfigScreen extends Screen implements ConfigPreviewRenderer {
         y += 24;
 
         // Toggle Use Thick Fog
-        useThickFogBtn = this.addDrawableChild(
+        this.addDrawableChild(
             ButtonWidget.builder(getToggleText("Use Thick Fog", config.settings.useThickFog), button -> {
                 config.settings.useThickFog = !config.settings.useThickFog;
                 button.setMessage(getToggleText("Use Thick Fog", config.settings.useThickFog));
@@ -125,7 +108,7 @@ public class ModConfigScreen extends Screen implements ConfigPreviewRenderer {
         blue = initialColor.getBlue();
 
         // Sliders for fog color
-        redSlider = this.addDrawableChild(new SliderWidget(centerX - 100, y, 200, 20, Text.literal("Red: " + red), red / 255f) {
+        this.addDrawableChild(new SliderWidget(centerX - 100, y, 200, 20, Text.literal("Red: " + red), red / 255f) {
             @Override
             protected void updateMessage() {
                 this.setMessage(Text.literal("Red: " + (int) (this.value * 255)));
@@ -153,7 +136,7 @@ public class ModConfigScreen extends Screen implements ConfigPreviewRenderer {
         });
         y += 24;
 
-        blueSlider = this.addDrawableChild(new SliderWidget(centerX - 100, y, 200, 20, Text.literal("Blue: " + blue), blue / 255f) {
+        this.addDrawableChild(new SliderWidget(centerX - 100, y, 200, 20, Text.literal("Blue: " + blue), blue / 255f) {
             @Override
             protected void updateMessage() {
                 this.setMessage(Text.literal("Blue: " + (int) (this.value * 255)));
@@ -192,8 +175,9 @@ public class ModConfigScreen extends Screen implements ConfigPreviewRenderer {
 
     @Override
     public void renderConfigPreview(DrawContext context, int mouseX, int mouseY, float delta) {
-        previewX = this.width / 2 + 120;
-        previewY = greenSlider.getY() + greenSlider.getHeight() / 2 - previewSize / 2;
+        int previewX = this.width / 2 + 120;
+        int previewSize = 40;
+        int previewY = greenSlider.getY() + greenSlider.getHeight() / 2 - previewSize / 2;
 
         context.fill(previewX, previewY, previewX + previewSize, previewY + previewSize,
             config.settings.fogColor | 0xFF000000);
