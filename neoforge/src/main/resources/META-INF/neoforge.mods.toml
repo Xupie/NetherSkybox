@@ -1,7 +1,7 @@
 modLoader = "javafml"
 loaderVersion = "[9,)"
-#issueTrackerURL = ""
-license = "Insert License Here"
+issueTrackerURL = "https://github.com/Xupie/NetherSkybox/issues"
+license = "GPL-2.0"
 
 [[mods]]
 modId = "nether_skybox"

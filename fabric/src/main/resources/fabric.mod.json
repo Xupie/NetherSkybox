@@ -8,10 +8,10 @@
     "Xupie"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "https://github.com/Xupie/NetherSkybox",
+    "sources": "https://github.com/Xupie/NetherSkybox"
   },
-  "license": "CC0-1.0",
+  "license": "GPL-2.0",
   "icon": "icon.png",
   "environment": "client",
   "entrypoints": {
